@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.MainUserMapper">
+    <insert id="insertBatch">
+        insert into wf_user (user_id,union_id,phone,update_at,create_at,level,locked,deleted,orin_channel,is_old_user,phone_code)
+        values
+        <foreach collection="list" item="wfUser" index="index" separator=",">
+            (
+            #{wfUser.userId},
+            #{wfUser.unionId},
+            #{wfUser.phone},
+            #{wfUser.updateAt},
+            #{wfUser.createAt},
+            #{wfUser.level},
+            #{wfUser.locked},
+            #{wfUser.deleted},
+            #{wfUser.orinChannel},
+            #{wfUser.isOldUser},
+            86
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateMainUser">
+        update wf_user set phone=#{phoneNumer} where union_id=#{wechatUnionId}
+    </update>
+
+    <update id="updateBatchMainUser">
+          <foreach collection="list" open="" index="" item="item" close="" separator=";">
+              update wf_user set phone=#{item.phone}
+              where union_id=#{item.unionId}
+          </foreach>
+    </update>
+
+    <select id="selectListUserId" resultType="com.example.demo.pojo.entity.WfUser">
+        select union_id as unionId,user_id as userId from wf_user;
+    </select>
+
+
+
+    <resultMap id="main_user" type="com.example.demo.pojo.entity.WfUser">
+        <id column="user_id" property="userId"></id>
+        <result column="union_id" property="unionId"></result>
+        <result column="theatre_union_id" property="theatreUnionId"></result>
+    </resultMap>
+    <select id="selectUserList" resultMap="main_user">
+        select a.user_id,a.union_id from wf_user a RIGHT JOIN
+        (select union_id from wf_user GROUP BY union_id HAVING count(union_id) >=2) b on a.union_id=b.union_id
+        where a.orin_channel=11
+    </select>
+
+
+    <select id="selectOneUser" resultMap="main_user">
+       	select a.*,b.union_id as theatre_union_id from (
+        select * from wf_user where user_id=#{userId} and orin_channel=11) a left JOIN
+				(select * from wf_user where union_id=#{unionId} and orin_channel=15) b on a.union_id=b.union_id
+
+    </select>
+    <delete id="deleteByOrinChannel" >
+        delete from wf_user where user_id=#{userId} and orin_channel=11
+    </delete>
+    <update id="updateUserIdUnionId">
+        update wf_user set user_id =#{userId}
+        where union_id=#{unionId} and orin_channel=15
+    </update>
+</mapper>

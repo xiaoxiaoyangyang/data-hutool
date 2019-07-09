@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.EvaluationMapper">
+    <resultMap id="result_map" type="com.example.demo.pojo.entity.EvaluationOrder">
+        <id column="id" property="id"></id>
+        <result column="customer_id" property="customerId"></result>
+        <result column="union_id" property="unionId"></result>
+    </resultMap>
+    <select id="selectCustomerList" resultMap="result_map">
+        select customer_id from ed_evaluationorder a where customer_id in
+        <foreach collection="list" item="customerId" open="(" separator="," close=")">
+            #{customerId}
+        </foreach>
+    </select>
+</mapper>

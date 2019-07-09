@@ -1,0 +1,30 @@
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://pgm-uf67al62v3npv73nxo.pg.rds.aliyuncs.com:3433/user?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+#    url: jdbc:postgresql://pgm-uf67al62v3npv73nxo.pg.rds.aliyuncs.com:3433/evaluation?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: heywoof
+    password: Heywoof@123
+    initialize: false
+    hikari:
+      maximumPoolSize: 2
+  druid:
+    initial-size: 1
+    max-active: 2
+    min-idle: 1
+    max-wait: 6000000
+server:
+  port: 7077
+  servlet:
+    context-path: /
+
+mybatis-plus:
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true

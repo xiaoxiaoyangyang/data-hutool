@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ThreateUserMapper">
+    <resultMap id="threate_mapper" type="com.example.demo.pojo.entity.ThreateUser">
+        <id column="user_id" property="userId"></id>
+        <result column="nick_name" property="nickName"></result>
+        <result column="union_id" property="unionId"></result>
+        <result column="open_id" property="openId"></result>
+        <result column="update_at" property="updateAt"></result>
+        <result column="create_at" property="createAt"></result>
+        <result column="locked" property="locked"></result>
+        <result column="orin_channel" property="orinChannel"></result>
+        <result column="sex" property="sex"></result>
+        <result column="disabled" property="disabled"></result>
+        <result column="locked_expired_at" property="lockedExpiredAt"></result>
+        <result column="user_reference_code" property="userReferenceCode"></result>
+        <result column="inviter_user_reference_code" property="inviterUserReferenceCode"></result>
+        <result column="guid" property="guid"></result>
+        <result column="language" property="language"></result>
+        <result column="city" property="city"></result>
+        <result column="province" property="province"></result>
+        <result column="country" property="country"></result>
+        <result column="bright_guid" property="brightGuid"></result>
+        <result column="avatar" property="avatar"></result>
+        <result column="uuid" property="uuid"></result>
+    </resultMap>
+    
+    <insert id="insertBatch">
+        insert into wf_user_mini_theatre(user_id,nick_name,union_id,open_id,update_at,create_at,locked,orin_channel,sex,disabled,locked_expired_at,user_reference_code,inviter_user_reference_code,
+        guid,language,city,province,country,bright_guid,avatar,uuid)
+        values
+        <foreach collection="list" item="threate" index="index" separator=",">
+            (
+            #{threate.userId},
+            #{threate.nickName},
+            #{threate.unionId},
+            #{threate.openId},
+            #{threate.updateAt},
+            #{threate.createAt},
+            #{threate.locked},
+            #{threate.orinChannel},
+            #{threate.sex},
+            #{threate.disabled},
+            #{threate.lockedExpiredAt},
+            #{threate.userReferenceCode},
+            #{threate.inviterUserReferenceCode},
+            #{threate.guid},
+            #{threate.language},
+            #{threate.city},
+            #{threate.province},
+            #{threate.country},
+            #{threate.brightGuid},
+            #{threate.avatar},
+            #{threate.uuid}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="batchInsertUpdate">
+        <foreach collection="list" open="" index="" item="threate" close="" separator=";">
+            insert into wf_user_mini_theatre(user_id,nick_name,union_id,open_id,update_at,create_at,locked,orin_channel,sex,disabled,locked_expired_at,user_reference_code,inviter_user_reference_code,
+            guid,language,city,province,country,bright_guid,avatar,uuid) values(
+            #{threate.userId},
+            #{threate.nickName},
+            #{threate.unionId},
+            #{threate.openId},
+            #{threate.updateAt},
+            #{threate.createAt},
+            #{threate.locked},
+            #{threate.orinChannel},
+            #{threate.sex},
+            #{threate.disabled},
+            #{threate.lockedExpiredAt},
+            #{threate.userReferenceCode},
+            #{threate.inviterUserReferenceCode},
+            #{threate.guid},
+            #{threate.language},
+            #{threate.city},
+            #{threate.province},
+            #{threate.country},
+            #{threate.brightGuid},
+            #{threate.avatar},
+            #{threate.uuid}
+            )
+            ON conflict(user_id) DO UPDATE SET
+            nick_name=#{threate.nickName},
+            union_id=#{threate.unionId},
+            open_id=#{threate.openId},
+            update_at=#{threate.updateAt},
+            create_at=#{threate.createAt},
+            locked=#{threate.locked},
+            orin_channel=#{threate.orinChannel},
+            sex=#{threate.sex},
+            disabled= #{threate.disabled},
+            locked_expired_at=#{threate.lockedExpiredAt},
+            user_reference_code= #{threate.userReferenceCode},
+            inviter_user_reference_code=  #{threate.inviterUserReferenceCode},
+            guid=#{threate.guid},
+            language=#{threate.language},
+            city=#{threate.city},
+            province= #{threate.province},
+            country= #{threate.country},
+            bright_guid=#{threate.brightGuid},
+            avatar=#{threate.avatar},
+            uuid= #{threate.uuid}
+        </foreach>
+    </insert>
+
+    <update id="updateByUnionId">
+        update wf_user_mini_theatre set user_id = #{userId}
+        where union_id=#{unionId}
+    </update>
+</mapper>
